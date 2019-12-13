@@ -1815,7 +1815,7 @@ void * w_output_thread(void * args){
         /* Pop message from the queue */
         message = w_msg_queue_pop(msg_queue);
 
-        if (SendMSGtoSCK(logr_queue, message->buffer, message->file, message->queue_mq, message->log_target) < 0) {
+        if (SendMSGtoSCK(logr_queue, message->buffer, message->file, message->queue_mq, message->log_target, LOGCOLLECTOR_TAG) < 0) {
             merror(QUEUE_SEND);
 
             if ((logr_queue = StartMQ(DEFAULTQPATH, WRITE)) < 0) {

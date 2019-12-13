@@ -144,9 +144,8 @@ void *Read_Log(wm_osquery_monitor_t * osquery)
                     }
 
                     payload = cJSON_PrintUnformatted(root);
-                    mdebug2("Sending... '%s'", payload);
 
-                    if (wm_sendmsg(osquery->msg_delay, osquery->queue_fd, payload, "osquery", LOCALFILE_MQ) < 0) {
+                    if (wm_sendmsg(osquery->msg_delay, osquery->queue_fd, payload, "osquery", LOCALFILE_MQ, OSQUERY_TAG) < 0) {
                         mterror(WM_OSQUERYMONITOR_LOGTAG, QUEUE_ERROR, DEFAULTQUEUE, strerror(errno));
                     }
 
@@ -339,7 +338,7 @@ void *Execute_Osquery(wm_osquery_monitor_t *osquery)
 
                 // Report to manager
 
-                if (wm_sendmsg(osquery->msg_delay, osquery->queue_fd, text, "osquery", LOCALFILE_MQ) < 0) {
+                if (wm_sendmsg(osquery->msg_delay, osquery->queue_fd, text, "osquery", LOCALFILE_MQ, OSQUERY_TAG) < 0) {
                     mterror(WM_OSQUERYMONITOR_LOGTAG, QUEUE_ERROR, DEFAULTQUEUE, strerror(errno));
                 }
             }

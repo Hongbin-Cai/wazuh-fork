@@ -251,9 +251,8 @@ static int wm_sca_send_alert(wm_sca_t * data,cJSON *json_alert)
 #endif
 
     char *msg = cJSON_PrintUnformatted(json_alert);
-    mdebug2("Sending event: %s",msg);
 
-    if (wm_sendmsg(data->msg_delay, queue_fd, msg,WM_SCA_STAMP, SCA_MQ) < 0) {
+    if (wm_sendmsg(data->msg_delay, queue_fd, msg,WM_SCA_STAMP, SCA_MQ, SCA_TAG) < 0) {
         merror(QUEUE_ERROR, DEFAULTQUEUE, strerror(errno));
 
         if(data->queue >= 0){
@@ -263,7 +262,7 @@ static int wm_sca_send_alert(wm_sca_t * data,cJSON *json_alert)
         if ((data->queue = StartMQ(DEFAULTQPATH, WRITE)) < 0) {
             mwarn("Can't connect to queue.");
         } else {
-            if(wm_sendmsg(data->msg_delay, data->queue, msg,WM_SCA_STAMP, SCA_MQ) < 0) {
+            if(wm_sendmsg(data->msg_delay, data->queue, msg,WM_SCA_STAMP, SCA_MQ, SCA_TAG) < 0) {
                 merror(QUEUE_ERROR, DEFAULTQUEUE, strerror(errno));
                 close(data->queue);
             }

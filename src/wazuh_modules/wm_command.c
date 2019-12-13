@@ -208,9 +208,9 @@ void * wm_command_main(wm_command_t * command) {
             char *save_ptr;
             for (line = strtok_r(output, "\n", &save_ptr); line; line = strtok_r(NULL, "\n", &save_ptr)){
             #ifdef WIN32
-                wm_sendmsg(usec, 0, line, extag, LOCALFILE_MQ);
+                wm_sendmsg(usec, 0, line, extag, LOCALFILE_MQ, COMMAND_TAG);
             #else
-                wm_sendmsg(usec, command->queue_fd, line, extag, LOCALFILE_MQ);
+                wm_sendmsg(usec, command->queue_fd, line, extag, LOCALFILE_MQ, COMMAND_TAG);
             #endif
             }
 

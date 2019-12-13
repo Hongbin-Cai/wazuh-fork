@@ -353,7 +353,7 @@ int local_start()
 }
 
 /* SendMSG for Windows */
-int SendMSG(__attribute__((unused)) int queue, const char *message, const char *locmsg, char loc)
+int SendMSG(__attribute__((unused)) int queue, const char *message, const char *locmsg, char loc, char *tag)
 {
     time_t cu_time;
     const char *pl;
@@ -496,7 +496,12 @@ int SendMSG(__attribute__((unused)) int queue, const char *message, const char *
         pl = locmsg;
     }
 
+
     snprintf(tmpstr, OS_MAXSTR, "%c:%s:%s", loc, pl, message);
+
+    if (tag) {
+        mdebug2(SEND_MSG_STR, tag, message);
+    }
 
     /* Send events to the manager across the buffer */
     if (!agt->buffer){

@@ -94,8 +94,7 @@ void sys_packages_bsd(int queue_fd, const char* LOCATION){
                 char * string = NULL;
                 if (string = sys_parse_pkg(path, timestamp, random_id), string) {
 
-                    mtdebug2(WM_SYS_LOGTAG, "Sending '%s'", string);
-                    wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ);
+                    wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
                     free(string);
 
                 } else
@@ -121,8 +120,7 @@ void sys_packages_bsd(int queue_fd, const char* LOCATION){
                 char * string = NULL;
                 if (string = sys_parse_pkg(path, timestamp, random_id), string) {
 
-                    mtdebug2(WM_SYS_LOGTAG, "sys_packages_bsd() sending '%s'", string);
-                    wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ);
+                    wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
                     free(string);
 
                 } else
@@ -198,8 +196,7 @@ void sys_packages_bsd(int queue_fd, const char* LOCATION){
             /* Send package information */
             char *string;
             string = cJSON_PrintUnformatted(object);
-            mtdebug2(WM_SYS_LOGTAG, "sys_packages_bsd() sending '%s'", string);
-            wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ);
+            wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
             cJSON_Delete(object);
             free(string);
         }
@@ -213,8 +210,7 @@ void sys_packages_bsd(int queue_fd, const char* LOCATION){
 
     char *string;
     string = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_packages_bsd() sending '%s'", string);
-    wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ);
+    wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(object);
     free(string);
     free(timestamp);
@@ -486,8 +482,7 @@ void sys_packages_bsd(int queue_fd, const char* LOCATION){
 
             string = cJSON_PrintUnformatted(object);
 
-            mtdebug2(WM_SYS_LOGTAG, "sys_packages_bsd() sending '%s'", string);
-            wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ);
+            wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
             cJSON_Delete(object);
 
             free(string);
@@ -508,8 +503,7 @@ void sys_packages_bsd(int queue_fd, const char* LOCATION){
 
     char *string;
     string = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_packages_bsd() sending '%s'", string);
-    wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ);
+    wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(object);
     free(string);
     free(timestamp);
@@ -618,8 +612,7 @@ void sys_hw_bsd(int queue_fd, const char* LOCATION){
 
     /* Send interface data in JSON format */
     string = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "Sending '%s'", string);
-    SendMSG(queue_fd, string, LOCATION, SYSCOLLECTOR_MQ);
+    SendMSG(queue_fd, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(object);
 
     free(string);
@@ -841,8 +834,7 @@ void sys_network_bsd(int queue_fd, const char* LOCATION){
 
         /* Send interface data in JSON format */
         string = cJSON_PrintUnformatted(object);
-        mtdebug2(WM_SYS_LOGTAG, "sys_network_bsd() sending '%s'", string);
-        wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ);
+        wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
         cJSON_Delete(object);
         free(string);
     }
@@ -863,8 +855,7 @@ void sys_network_bsd(int queue_fd, const char* LOCATION){
 
     char *string;
     string = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_network_bsd() sending '%s'", string);
-    wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ);
+    wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(object);
     free(string);
     free(timestamp);
@@ -1499,8 +1490,7 @@ void sys_ports_mac(int queue_fd, const char* WM_SYS_LOCATION, int check_all) {
             cJSON_AddItemToArray(procPorts, cJSON_Duplicate(port, 1));
 
             char *string = cJSON_PrintUnformatted(object);
-            mtdebug2(WM_SYS_LOGTAG, "sys_ports_mac() sending '%s'", string);
-            wm_sendmsg(usec, queue_fd, string, WM_SYS_LOCATION, SYSCOLLECTOR_MQ);
+            wm_sendmsg(usec, queue_fd, string, WM_SYS_LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
             os_free(string);
             cJSON_Delete(object);
         }
@@ -1519,7 +1509,7 @@ void sys_ports_mac(int queue_fd, const char* WM_SYS_LOCATION, int check_all) {
     char *string = cJSON_PrintUnformatted(object);
     cJSON_Delete(object);
     mtdebug2(WM_SYS_LOGTAG, "sys_ports_mac() sending '%s'", string);
-    SendMSG(queue_fd, string, WM_SYS_LOCATION, SYSCOLLECTOR_MQ);
+    SendMSG(queue_fd, string, WM_SYS_LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     os_free(string);
 }
 
@@ -1637,8 +1627,7 @@ void sys_proc_mac(int queue_fd, const char* LOCATION){
     cJSON *item;
     cJSON_ArrayForEach(item, proc_array) {
         char *string = cJSON_PrintUnformatted(item);
-        mtdebug2(WM_SYS_LOGTAG, "sys_proc_mac() sending '%s'", string);
-        wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ);
+        wm_sendmsg(usec, queue_fd, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
         os_free(string);
     }
 
@@ -1650,8 +1639,7 @@ void sys_proc_mac(int queue_fd, const char* LOCATION){
     os_free(timestamp);
 
     char *end_msg = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_proc_mac() sending '%s'", end_msg);
-    wm_sendmsg(usec, queue_fd, end_msg, LOCATION, SYSCOLLECTOR_MQ);
+    wm_sendmsg(usec, queue_fd, end_msg, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(object);
     os_free(end_msg);
 }

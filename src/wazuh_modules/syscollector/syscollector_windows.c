@@ -388,8 +388,7 @@ void sys_ports_windows(const char* LOCATION, int check_all){
 
                 char *string;
                 string = cJSON_PrintUnformatted(object);
-                mtdebug2(WM_SYS_LOGTAG, "sys_ports_windows() sending '%s'", string);
-                wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+                wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
                 cJSON_Delete(object);
                 free(string);
 
@@ -509,8 +508,7 @@ void sys_ports_windows(const char* LOCATION, int check_all){
             if (check_all || listening) {
                 char *string;
                 string = cJSON_PrintUnformatted(object);
-                mtdebug2(WM_SYS_LOGTAG, "sys_ports_windows() sending '%s'", string);
-                wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+                wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
                 cJSON_Delete(object);
                 free(string);
             } else {
@@ -586,8 +584,7 @@ void sys_ports_windows(const char* LOCATION, int check_all){
             free(pid_name);
 
             string = cJSON_PrintUnformatted(object);
-            mtdebug2(WM_SYS_LOGTAG, "sys_ports_windows() sending '%s'", string);
-            wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+            wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
             cJSON_Delete(object);
 
             free(string);
@@ -671,8 +668,7 @@ void sys_ports_windows(const char* LOCATION, int check_all){
             free(pid_name);
 
             string = cJSON_PrintUnformatted(object);
-            mtdebug2(WM_SYS_LOGTAG, "sys_ports_windows() sending '%s'", string);
-            wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+            wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
             cJSON_Delete(object);
 
             free(string);
@@ -713,8 +709,7 @@ end:
 
     char *string;
     string = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_ports_windows() sending '%s'", string);
-    wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+    wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(object);
     free(string);
     free(timestamp);
@@ -798,8 +793,7 @@ void sys_programs_windows(const char* LOCATION){
 
     char *string;
     string = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_programs_windows() sending '%s'", string);
-    wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+    wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(object);
     free(string);
     free(timestamp);
@@ -836,8 +830,7 @@ void sys_hotfixes(const char* LOCATION){
     cJSON_AddStringToObject(end_evt, "timestamp", timestamp);
 
     end_evt_str = cJSON_PrintUnformatted(end_evt);
-    mtdebug2(WM_SYS_LOGTAG, "sys_hotfixes() sending '%s'", end_evt_str);
-    wm_sendmsg(usec, 0, end_evt_str, LOCATION, SYSCOLLECTOR_MQ);
+    wm_sendmsg(usec, 0, end_evt_str, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(end_evt);
 
     free(end_evt_str);
@@ -1249,8 +1242,7 @@ void read_win_program(const char * sec_key, int arch, int root_key, int usec, co
 
             char *string;
             string = cJSON_PrintUnformatted(object);
-            mtdebug2(WM_SYS_LOGTAG, "sys_programs_windows() sending '%s'", string);
-            wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+            wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
             cJSON_Delete(object);
             free(string);
 
@@ -1280,8 +1272,7 @@ void send_hotfix(const char *hotfix, int usec, const char *timestamp, int ID, co
     cJSON_AddStringToObject(event, "hotfix", hotfix);
 
     char *str_event = cJSON_PrintUnformatted(event);
-    mtdebug2(WM_SYS_LOGTAG, "sys_hotfixes() sending '%s'", str_event);
-    wm_sendmsg(usec, 0, str_event, LOCATION, SYSCOLLECTOR_MQ);
+    wm_sendmsg(usec, 0, str_event, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(event);
     free(str_event);
 }
@@ -1417,8 +1408,7 @@ void sys_hw_windows(const char* LOCATION){
 
     /* Send interface data in JSON format */
     char *string = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_hw_windows() sending '%s'", string);
-    SendMSG(0, string, LOCATION, SYSCOLLECTOR_MQ);
+    SendMSG(0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(object);
 
     free(string);
@@ -1451,8 +1441,7 @@ void sys_os_windows(const char* LOCATION){
 
     /* Send interface data in JSON format */
     string = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_os_windows() sending '%s'", string);
-    SendMSG(0, string, LOCATION, SYSCOLLECTOR_MQ);
+    SendMSG(0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(object);
 
     free(string);
@@ -1963,8 +1952,7 @@ void sys_network_windows(const char* LOCATION){
                     string = get_network_xp(pCurrAddresses, AdapterInfo, ID, timestamp);
                 }
 
-                mtdebug2(WM_SYS_LOGTAG, "sys_network_windows() sending '%s'", string);
-                wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+                wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
 
                 free(string);
 
@@ -2002,8 +1990,7 @@ void sys_network_windows(const char* LOCATION){
 
     char *string;
     string = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_network_windows() sending '%s'", string);
-    wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+    wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     cJSON_Delete(object);
     free(string);
     free(timestamp);
@@ -2308,8 +2295,7 @@ void sys_proc_windows(const char* LOCATION) {
 
 			cJSON_ArrayForEach(item, proc_array) {
 				char *string = cJSON_PrintUnformatted(item);
-				mtdebug2(WM_SYS_LOGTAG, "sys_proc_windows() sending '%s'", string);
-				wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+				wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
 				free(string);
 			}
 
@@ -2338,8 +2324,7 @@ void sys_proc_windows(const char* LOCATION) {
     cJSON_AddStringToObject(object, "timestamp", timestamp);
 
     char *string = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_proc_windows() sending '%s'", string);
-    wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ);
+    wm_sendmsg(usec, 0, string, LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
 
     cJSON_Delete(object);
     free(string);

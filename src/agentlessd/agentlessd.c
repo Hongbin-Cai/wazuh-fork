@@ -57,7 +57,7 @@ static int send_intcheck_msg(const char *script, const char *host, const char *m
     sys_location[1024] = '\0';
     snprintf(sys_location, 1024, "(%s) %s->%s", script, host, SYSCHECK);
 
-    if (SendMSG(lessdc.queue, msg, sys_location, SYSCHECK_MQ) < 0) {
+    if (SendMSG(lessdc.queue, msg, sys_location, SYSCHECK_MQ, NULL) < 0) {
         merror(QUEUE_SEND);
 
         if ((lessdc.queue = StartMQ(DEFAULTQPATH, WRITE)) < 0) {
@@ -65,7 +65,7 @@ static int send_intcheck_msg(const char *script, const char *host, const char *m
         }
 
         /* If we reach here, we can try to send it again */
-        SendMSG(lessdc.queue, msg, sys_location, SYSCHECK_MQ);
+        SendMSG(lessdc.queue, msg, sys_location, SYSCHECK_MQ, NULL);
     }
 
     return (0);
@@ -79,14 +79,14 @@ static int send_log_msg(const char *script, const char *host, const char *msg)
     sys_location[1024] = '\0';
     snprintf(sys_location, 1024, "(%s) %s->%s", script, host, SYSCHECK);
 
-    if (SendMSG(lessdc.queue, msg, sys_location, LOCALFILE_MQ) < 0) {
+    if (SendMSG(lessdc.queue, msg, sys_location, LOCALFILE_MQ, NULL) < 0) {
         merror(QUEUE_SEND);
         if ((lessdc.queue = StartMQ(DEFAULTQPATH, WRITE)) < 0) {
             merror_exit(QUEUE_FATAL, DEFAULTQPATH);
         }
 
         /* If we reach here, we can try to send it again */
-        SendMSG(lessdc.queue, msg, sys_location, LOCALFILE_MQ);
+        SendMSG(lessdc.queue, msg, sys_location, LOCALFILE_MQ, NULL);
     }
     return (0);
 }
@@ -134,7 +134,7 @@ static int gen_diff_alert(const char *host, const char *script, time_t alert_dif
     snprintf(diff_alert, sizeof(diff_alert), "ossec: agentless: Change detected:\n%s", buf);
     snprintf(buf, 1024, "(%s) %s->agentless", script, host);
 
-    if (SendMSG(lessdc.queue, diff_alert, buf, LOCALFILE_MQ) < 0) {
+    if (SendMSG(lessdc.queue, diff_alert, buf, LOCALFILE_MQ, NULL) < 0) {
         merror(QUEUE_SEND);
 
         if ((lessdc.queue = StartMQ(DEFAULTQPATH, WRITE)) < 0) {
@@ -142,7 +142,7 @@ static int gen_diff_alert(const char *host, const char *script, time_t alert_dif
         }
 
         /* If we reach here, we can try to send it again */
-        SendMSG(lessdc.queue, diff_alert, buf, LOCALFILE_MQ);
+        SendMSG(lessdc.queue, diff_alert, buf, LOCALFILE_MQ, NULL);
     }
 
     save_agentless_entry(host, script, "diff");

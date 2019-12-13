@@ -108,7 +108,7 @@ void* wm_azure_main(wm_azure_t *azure_config) {
         mtinfo(WM_AZURE_LOGTAG, "Starting fetching of logs.");
 
         snprintf(msg, OS_SIZE_6144, "Starting Azure-logs scan.");
-        SendMSG(queue_fd, msg, "rootcheck", ROOTCHECK_MQ);
+        SendMSG(queue_fd, msg, "rootcheck", ROOTCHECK_MQ, AZURE_TAG);
 
         // Get time and execute
         time_start = time(NULL);
@@ -132,7 +132,7 @@ void* wm_azure_main(wm_azure_t *azure_config) {
         }
 
         snprintf(msg, OS_SIZE_6144, "Ending Azure-logs scan.");
-        SendMSG(queue_fd, msg, "rootcheck", ROOTCHECK_MQ);
+        SendMSG(queue_fd, msg, "rootcheck", ROOTCHECK_MQ, AZURE_TAG);
 
         mtinfo(WM_AZURE_LOGTAG, "Fetching logs finished.");
 

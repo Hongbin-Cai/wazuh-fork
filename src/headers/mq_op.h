@@ -34,12 +34,27 @@
 
 #define MAX_OPENQ_ATTEMPS 15
 
+#define SEND_MSG_STR "Sending message from %s: '%s'"
+
+// Component tags
+#define LOGCOLLECTOR_TAG "Logcollector"
+#define SYSCHECK_TAG "FIM"
+#define SYSCOLLECTOR_TAG "Syscollector"
+#define AZURE_TAG "Azure integration"
+#define OSCAP_TAG "OpenSCAP integration"
+#define VULNERABILITY_TAG "Vulnerability Detector"
+#define AWS_TAG "AWS integration"
+#define CISCAT_TAG "CIS-CAT integration"
+#define OSQUERY_TAG "Osquery integration"
+#define SCA_TAG "SCA"
+#define COMMAND_TAG "Command"
+
 extern int sock_fail_time;
 
 int StartMQ(const char *key, short int type) __attribute__((nonnull));
 
-int SendMSG(int queue, const char *message, const char *locmsg, char loc) __attribute__((nonnull));
+int SendMSG(int queue, const char *message, const char *locmsg, char loc, char *tag) __attribute__((nonnull (2, 3)));
 
-int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, logtarget * target) __attribute__((nonnull (2, 3, 5)));
+int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, logtarget *target, char *tag) __attribute__((nonnull (2, 3, 5)));
 
 #endif /* MQ_H */

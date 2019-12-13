@@ -66,7 +66,7 @@ void Monitord()
     /* Send startup message */
     snprintf(str, OS_SIZE_1024 - 1, OS_AD_STARTED);
     if (SendMSG(mond.a_queue, str, ARGV0,
-                LOCALFILE_MQ) < 0) {
+                LOCALFILE_MQ, NULL) < 0) {
         merror(QUEUE_SEND);
     }
 

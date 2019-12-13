@@ -50,7 +50,7 @@ int StartMQ(const char *path, short int type)
 }
 
 /* Send a message to the queue */
-int SendMSG(int queue, const char *message, const char *locmsg, char loc)
+int SendMSG(int queue, const char *message, const char *locmsg, char loc, char *tag)
 {
     int __mq_rcode;
     char tmpstr[OS_MAXSTR + 1];
@@ -80,6 +80,10 @@ int SendMSG(int queue, const char *message, const char *locmsg, char loc)
         snprintf(tmpstr, OS_MAXSTR, "%c:%s:%s", loc, locmsg, message);
     }
 
+    if (tag) {
+        mdebug2(SEND_MSG_STR, tag, message);
+    }
+
     /* Queue not available */
     if (queue < 0) {
         return (-1);
@@ -106,7 +110,7 @@ int SendMSG(int queue, const char *message, const char *locmsg, char loc)
 }
 
 /* Send a message to socket */
-int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, logtarget * target)
+int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, logtarget *target, char *tag)
 {
     int __mq_rcode;
     char tmpstr[OS_MAXSTR + 1];
@@ -116,7 +120,7 @@ int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, l
     _message = msgsubst(target->format, message, locmsg, mtime);
 
     if (strcmp(target->log_socket->name, "agent") == 0) {
-        SendMSG(queue, _message, locmsg, loc);
+        SendMSG(queue, _message, locmsg, loc, tag);
     }
     else {
         tmpstr[OS_MAXSTR] = '\0';
@@ -179,7 +183,7 @@ int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, l
 
                         if (OS_SendUnix(target->log_socket->socket, tmpstr, strlen(tmpstr)), __mq_rcode < 0) {
                             merror("Cannot send message to socket '%s'. (Retry)", target->log_socket->name);
-                            SendMSG(queue, "Cannot send message to socket.", "logcollector", LOCALFILE_MQ);
+                            SendMSG(queue, "Cannot send message to socket.", "logcollector", LOCALFILE_MQ, tag);
                             target->log_socket->last_attempt = mtime;
                         }
                     }
@@ -188,7 +192,7 @@ int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, l
                 }
             } else {
                 merror("Cannot send message to socket '%s'. (Retry)", target->log_socket->name);
-                SendMSG(queue, "Cannot send message to socket.", "logcollector", LOCALFILE_MQ);
+                SendMSG(queue, "Cannot send message to socket.", "logcollector", LOCALFILE_MQ, tag);
             }
         }
     }
@@ -199,7 +203,7 @@ int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, l
 
 #else
 
-int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, logtarget * targets) {
+int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, logtarget *targets, char *tag) {
     char * _message;
     int retval;
 
@@ -209,7 +213,7 @@ int SendMSGtoSCK(int queue, const char *message, const char *locmsg, char loc, l
     }
 
     _message = msgsubst(targets[0].format, message, locmsg, time(NULL));
-    retval = SendMSG(queue, _message, locmsg, loc);
+    retval = SendMSG(queue, _message, locmsg, loc, tag);
     free(_message);
     return retval;
 }

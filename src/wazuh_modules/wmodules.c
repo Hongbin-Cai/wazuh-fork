@@ -301,7 +301,7 @@ cJSON *getModulesInternalOptions(void) {
 
 
 // Send message to a queue waiting for a specific delay
-int wm_sendmsg(int usec, int queue, const char *message, const char *locmsg, char loc) {
+int wm_sendmsg(int usec, int queue, const char *message, const char *locmsg, char loc, char *tag) {
 
 #ifdef WIN32
     int msec = usec / 1000;
@@ -311,7 +311,7 @@ int wm_sendmsg(int usec, int queue, const char *message, const char *locmsg, cha
     select(0, NULL, NULL, NULL, &timeout);
 #endif
 
-    if (SendMSG(queue, message, locmsg, loc) < 0) {
+    if (SendMSG(queue, message, locmsg, loc, tag) < 0) {
         merror("At wm_sendmsg(): Unable to send message to queue: (%s)", strerror(errno));
         return -1;
     }

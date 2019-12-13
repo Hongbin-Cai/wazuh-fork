@@ -429,7 +429,7 @@ void wm_ciscat_run(wm_ciscat_eval *eval, char *path, int id, const char * java_p
     // Send rootcheck message
 
     snprintf(msg, OS_MAXSTR, "Starting CIS-CAT scan. File: %s. ", eval->path);
-    SendMSG(0, msg, "rootcheck", ROOTCHECK_MQ);
+    SendMSG(0, msg, "rootcheck", ROOTCHECK_MQ, CISCAT_TAG);
 
     // Execute the scan
 
@@ -494,7 +494,7 @@ void wm_ciscat_run(wm_ciscat_eval *eval, char *path, int id, const char * java_p
     }
 
     snprintf(msg, OS_MAXSTR, "Ending CIS-CAT scan. File: %s. ", eval->path);
-    SendMSG(0, msg, "rootcheck", ROOTCHECK_MQ);
+    SendMSG(0, msg, "rootcheck", ROOTCHECK_MQ, CISCAT_TAG);
 }
 
 #else
@@ -568,7 +568,7 @@ void wm_ciscat_run(wm_ciscat_eval *eval, char *path, int id, const char * java_p
     // Send rootcheck message
 
     snprintf(msg, OS_MAXSTR, "Starting CIS-CAT scan. File: %s. ", eval->path);
-    SendMSG(queue_fd, msg, "rootcheck", ROOTCHECK_MQ);
+    SendMSG(queue_fd, msg, "rootcheck", ROOTCHECK_MQ, CISCAT_TAG);
 
     // Execute the scan
 
@@ -669,7 +669,7 @@ void wm_ciscat_run(wm_ciscat_eval *eval, char *path, int id, const char * java_p
     }
 
     snprintf(msg, OS_MAXSTR, "Ending CIS-CAT scan. File: %s. ", eval->path);
-    SendMSG(queue_fd, msg, "rootcheck", ROOTCHECK_MQ);
+    SendMSG(queue_fd, msg, "rootcheck", ROOTCHECK_MQ, CISCAT_TAG);
 }
 
 #endif
@@ -1427,11 +1427,10 @@ void wm_ciscat_send_scan(wm_scan_data *info, int id){
     char *msg;
 
     msg = cJSON_PrintUnformatted(object);
-    mtdebug2(WM_CISCAT_LOGTAG, "Sending CIS-CAT event: '%s'", msg);
 #ifdef WIN32
-    wm_sendmsg(usec, 0, msg, WM_CISCAT_LOCATION, CISCAT_MQ);
+    wm_sendmsg(usec, 0, msg, WM_CISCAT_LOCATION, CISCAT_MQ, CISCAT_TAG);
 #else
-    wm_sendmsg(usec, queue_fd, msg, WM_CISCAT_LOCATION, CISCAT_MQ);
+    wm_sendmsg(usec, queue_fd, msg, WM_CISCAT_LOCATION, CISCAT_MQ, CISCAT_TAG);
 #endif
     cJSON_Delete(object);
 
@@ -1462,11 +1461,10 @@ void wm_ciscat_send_scan(wm_scan_data *info, int id){
         char *msg;
 
         msg = cJSON_PrintUnformatted(object);
-        mtdebug2(WM_CISCAT_LOGTAG, "Sending CIS-CAT event: '%s'", msg);
     #ifdef WIN32
-        wm_sendmsg(usec, 0, msg, WM_CISCAT_LOCATION, CISCAT_MQ);
+        wm_sendmsg(usec, 0, msg, WM_CISCAT_LOCATION, CISCAT_MQ, CISCAT_TAG);
     #else
-        wm_sendmsg(usec, queue_fd, msg, WM_CISCAT_LOCATION, CISCAT_MQ);
+        wm_sendmsg(usec, queue_fd, msg, WM_CISCAT_LOCATION, CISCAT_MQ, CISCAT_TAG);
     #endif
         cJSON_Delete(object);
 

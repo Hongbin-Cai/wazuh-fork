@@ -629,13 +629,13 @@ void audit_parse(char *buffer) {
                 // Send alert
                 char msg_alert[512 + 1];
                 snprintf(msg_alert, 512, "ossec: Audit: Monitored directory was removed: Audit rule removed");
-                SendMSG(syscheck.queue, msg_alert, "syscheck", LOCALFILE_MQ);
+                SendMSG(syscheck.queue, msg_alert, "syscheck", LOCALFILE_MQ, SYSCHECK_TAG);
             } else {
                 mwarn(FIM_WARN_AUDIT_RULES_MODIFIED);
                 // Send alert
                 char msg_alert[512 + 1];
                 snprintf(msg_alert, 512, "ossec: Audit: Detected rules manipulation: Audit rules removed");
-                SendMSG(syscheck.queue, msg_alert, "syscheck", LOCALFILE_MQ);
+                SendMSG(syscheck.queue, msg_alert, "syscheck", LOCALFILE_MQ, SYSCHECK_TAG);
 
                 count_reload_retries++;
 
@@ -646,7 +646,7 @@ void audit_parse(char *buffer) {
                     // Send alert
                     char msg_alert[512 + 1];
                     snprintf(msg_alert, 512, "ossec: Audit: Detected rules manipulation: Max rules reload retries");
-                    SendMSG(syscheck.queue, msg_alert, "syscheck", LOCALFILE_MQ);
+                    SendMSG(syscheck.queue, msg_alert, "syscheck", LOCALFILE_MQ, SYSCHECK_TAG);
                     // Stop thread
                     audit_thread_active = 0;
                 }
@@ -1280,7 +1280,7 @@ void audit_read_events(int *audit_sock, int mode) {
             // Send alert
             char msg_alert[512 + 1];
             snprintf(msg_alert, 512, "ossec: Audit: Connection closed");
-            SendMSG(syscheck.queue, msg_alert, "syscheck", LOCALFILE_MQ);
+            SendMSG(syscheck.queue, msg_alert, "syscheck", LOCALFILE_MQ, SYSCHECK_TAG);
             break;
         }
 

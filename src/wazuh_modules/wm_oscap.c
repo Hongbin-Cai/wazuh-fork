@@ -203,7 +203,7 @@ void wm_oscap_run(wm_oscap_eval *eval) {
     // Send rootcheck message
 
     snprintf(msg, OS_MAXSTR, "Starting OpenSCAP scan. File: %s. ", eval->path);
-    SendMSG(queue_fd, msg, "rootcheck", ROOTCHECK_MQ);
+    SendMSG(queue_fd, msg, "rootcheck", ROOTCHECK_MQ, OSCAP_TAG);
 
     // Execute
 
@@ -246,13 +246,13 @@ void wm_oscap_run(wm_oscap_eval *eval) {
     char *line;
     char *save_ptr;
     for (line = strtok_r(output, "\n", &save_ptr); line; line = strtok_r(NULL, "\n", &save_ptr)) {
-        wm_sendmsg(usec, queue_fd, line, WM_OSCAP_LOCATION, LOCALFILE_MQ);
+        wm_sendmsg(usec, queue_fd, line, WM_OSCAP_LOCATION, LOCALFILE_MQ, OSCAP_TAG);
     }
 
     os_free(output);
 
     snprintf(msg, OS_MAXSTR, "Ending OpenSCAP scan. File: %s. ", eval->path);
-    wm_sendmsg(usec, queue_fd, msg, "rootcheck", ROOTCHECK_MQ);
+    wm_sendmsg(usec, queue_fd, msg, "rootcheck", ROOTCHECK_MQ, OSCAP_TAG);
 }
 
 // Check configuration

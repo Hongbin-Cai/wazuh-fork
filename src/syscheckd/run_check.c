@@ -44,7 +44,7 @@ static void fim_delete_realtime_watches(int pos);
 // Send a message
 // LCOV_EXCL_START
 static void fim_send_msg(char mq, const char * location, const char * msg) {
-    if (SendMSG(syscheck.queue, msg, location, mq) < 0) {
+    if (SendMSG(syscheck.queue, msg, location, mq, SYSCHECK_TAG) < 0) {
         merror(QUEUE_SEND);
 
         if ((syscheck.queue = StartMQ(DEFAULTQPATH, WRITE)) < 0) {
@@ -52,7 +52,7 @@ static void fim_send_msg(char mq, const char * location, const char * msg) {
         }
 
         // Try to send it again
-        SendMSG(syscheck.queue, msg, location, mq);
+        SendMSG(syscheck.queue, msg, location, mq, SYSCHECK_TAG);
     }
 }
 // LCOV_EXCL_STOP
@@ -73,7 +73,6 @@ void fim_send_sync_msg(const char * msg) {
 // Send a message related to syscheck change/addition
 void send_syscheck_msg(const char *msg)
 {
-    mdebug2(FIM_SEND, msg);
     fim_send_msg(SYSCHECK_MQ, SYSCHECK, msg);
     struct timespec timeout = { syscheck.send_delay / 1000000, syscheck.send_delay % 1000000 * 1000 };
     nanosleep(&timeout, NULL);

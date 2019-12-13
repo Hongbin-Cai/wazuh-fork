@@ -117,7 +117,7 @@ static void HandleClient(int client_socket, char *srcip)
         }
 
         /* Send to the queue */
-        if (SendMSG(logr.m_queue, buffer_pt, srcip, SYSLOG_MQ) < 0) {
+        if (SendMSG(logr.m_queue, buffer_pt, srcip, SYSLOG_MQ, NULL) < 0) {
             merror(QUEUE_ERROR, DEFAULTQUEUE, strerror(errno));
 
             if ((logr.m_queue = StartMQ(DEFAULTQUEUE, WRITE)) < 0) {

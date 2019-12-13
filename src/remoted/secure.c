@@ -415,7 +415,7 @@ static void HandleSecureMessage(char *buffer, int recv_b, struct sockaddr_in *pe
      * socket again. If it not exit.
      */
     if (SendMSG(logr.m_queue, tmp_msg, srcmsg,
-                SECURE_MQ) < 0) {
+                SECURE_MQ, NULL) < 0) {
         merror(QUEUE_ERROR, DEFAULTQUEUE, strerror(errno));
 
         if ((logr.m_queue = StartMQ(DEFAULTQUEUE, WRITE)) < 0) {
