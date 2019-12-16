@@ -1508,7 +1508,6 @@ void sys_ports_mac(int queue_fd, const char* WM_SYS_LOCATION, int check_all) {
 
     char *string = cJSON_PrintUnformatted(object);
     cJSON_Delete(object);
-    mtdebug2(WM_SYS_LOGTAG, "sys_ports_mac() sending '%s'", string);
     SendMSG(queue_fd, string, WM_SYS_LOCATION, SYSCOLLECTOR_MQ, SYSCOLLECTOR_TAG);
     os_free(string);
 }

@@ -33,13 +33,13 @@ int StartMQ(const char *path, short int type)
         /* Wait up to connect to the unix domain.
          * After three errors, exit.
          */
-         for (i = 0; i < MAX_OPENQ_ATTEMPS; i++) {
+         for (i = 0; i < MAX_OPENQ_ATTEMPTS; i++) {
              if (rc = OS_ConnectUnixDomain(path, SOCK_DGRAM, OS_MAXSTR + 256), rc >= 0) {
                  break;
              }
              sleep(1);
          }
-         if (i == MAX_OPENQ_ATTEMPS) {
+         if (i == MAX_OPENQ_ATTEMPTS) {
              merror(QUEUE_ERROR, path, strerror(errno));
              return OS_INVALID;
          }

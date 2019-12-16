@@ -32,13 +32,14 @@
 #define CISCAT_MQ        'e'
 #define WIN_EVT_MQ       'f'
 
-#define MAX_OPENQ_ATTEMPS 15
+#define MAX_OPENQ_ATTEMPTS 15
 
-#define SEND_MSG_STR "Sending message from %s: '%s'"
+#define SEND_MSG_STR "Sending %s event: '%s'"
 
 // Component tags
 #define LOGCOLLECTOR_TAG "Logcollector"
 #define SYSCHECK_TAG "FIM"
+#define ROOTCHECK_TAG "Rootcheck"
 #define SYSCOLLECTOR_TAG "Syscollector"
 #define AZURE_TAG "Azure integration"
 #define OSCAP_TAG "OpenSCAP integration"
@@ -47,7 +48,7 @@
 #define CISCAT_TAG "CIS-CAT integration"
 #define OSQUERY_TAG "Osquery integration"
 #define SCA_TAG "SCA"
-#define COMMAND_TAG "Command"
+#define COMMAND_TAG "Command module"
 
 extern int sock_fail_time;
 
